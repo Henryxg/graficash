@@ -1,0 +1,15 @@
+git init
+
+code . # abre el vsual estud
+ git remote add origin https://github.com/Henryxg/graficash.git
+git remote -v ## rpocitorios en inter
+
+
+
+git pull /sacas del inter solo rama
+git push / poner en inter
+
+
+git fetch origin ## jalar todo de todas las ramas
+git branch -r ## ver las ramras
+git checkout main # cambiamso de ramas
