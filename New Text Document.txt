@@ -1,0 +1,2 @@
+code . # abre el vsual estud
+git remote -b ## rpocitorios en inter
