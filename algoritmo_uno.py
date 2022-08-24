@@ -364,9 +364,7 @@ if __name__ == "__main__":
                                             
                                              
         
-                    if opcionborrar:
-                             re_total = re_total.subtract( unico(re_total.join(re_piv, re_total[ li[0] ] == re_piv[li[0] ],"inner")\
-                                              .select([ re_total[i]    for i in re_total.columns]))   )
+                    
                      
                      
                     re_piv = re_piv.subtract(dat_to_jog.select( [ re_piv[i]    for i in re_piv.columns]))
@@ -381,9 +379,11 @@ if __name__ == "__main__":
                     
         print("Guardando...")
                    
-        #new_jo, re_piv, re_total= checkpoint_write_and_read( new_jo, re_piv, re_total )
-         
-        
+     
+        if opcionborrar:
+                             re_total = re_total.subtract( unico(re_total.join(re_piv, re_total[ li[0] ] == re_piv[li[0] ],"inner")\
+                                              .select([ re_total[i]    for i in re_total.columns]))   )
+                
         """construyendo un registro de resultados"""
         match_reg= new_jo.groupBy('id_etiqueta').count().toPandas()
         numdet= match_reg['count'].sum()
@@ -417,7 +417,7 @@ if __name__ == "__main__":
                         for i in re_piv.columns] +[F.col('id_etiqueta')]))
                re_piv = re_piv.subtract(axiliar.select( [ re_piv[i]    for i in re_piv.columns]))                   
            
-           #key='idif_sexo_fna_cedulma_N_A_30' and F.col('resto_fecha')>0
+           
            elif key=='idif_sexo_fna_cedulma_N_A_30':   # para la ultima parte del algoritmo comparamos a las personas en un rango de 30 dias
                dat_to_jo = re_total.join(re_piv, re_total[ li[0][0] ] == re_piv[li[0][0] ],"inner")\
                              .withColumn( "resto_fecha",  F.abs(F.round(  re_total['p_fecha_nac'].cast("long")-re_piv['p_fecha_nac']\
@@ -437,13 +437,14 @@ if __name__ == "__main__":
                         for i in re_piv.columns] +[F.col('id_etiqueta')]))
                re_piv = re_piv.subtract(axiliar.select( [ re_piv[i]    for i in re_piv.columns])) 
                 
-               if opcionborrar:
-                    re_total = re_total.subtract( unico(axiliar.select( [ re_total[i]    for i in re_total.columns] )))
+               
         
            else:
                print("NO existe sexo o fecha de nacimiento")
                 
-        
+        if opcionborrar:
+                    re_total = re_total.subtract( unico(axiliar.select( [ re_total[i]    for i in re_total.columns] )))
+                
         #new_jo, re_piv, re_total= final_write_and_read( new_jo, re_piv, re_total )  
         re_piv=re_piv.checkpoint()
         new_jo = new_jo.checkpoint()
